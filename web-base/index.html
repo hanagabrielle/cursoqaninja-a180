@@ -3,9 +3,104 @@
 <html>
     <head>
         <title>WebBase from QAninja</title>
+        <script src="./js/vue.js"></script>
     </head>
 </html>
 <body>
-    <h1>Aqui vai um título em HTML</h1>
-    <p>Aqui temos um parágrafo</p>
+    <div id="app">
+        <h1>Cadastro de Alunos</h1>
+        <form>
+            <label for = "nomeCompleto">Nome Completo</label>
+            <input name = "nomeCompleto" type="text" v-model="form.nome"> 
+    
+            <label for="email">Email</label>
+            <input email = "email" type="email" v-model="form.email">
+            
+            <label for="nota">Nota</label>
+            <input nota = "nota" type="text" v-model="form.nota">
+    
+            <input type="button" value="Cadastrar" @click="adicionarAluno">
+    
+            <div>
+                <table class="table">
+                    <thead> <!-- Colunas-->
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Nota</th>
+                        <th>Ações</th>
+                    </thead>
+                    <tbody> <!-- Linhas-->
+                        <tr v-for="aluno in alunos">
+                            <td>{{aluno.nome}}</td>
+                            <td>{{aluno.email}}</td>
+                            <td>{{aluno.nota}}</td>
+                            <td>
+                                <button class="danger" @click="apagarAluno(aluno)">Apagar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form> 
+    </div>
+    <script>
+        var app = new Vue ({
+            el: "#app",
+            data: {
+                form: {
+                    nome: '',
+                    email: '',
+                    nota: ''
+                },
+                alunos: []
+            },
+            methods: {
+                limpaFormulario: function(){
+                    this.form = {
+                        nome: '',
+                        email: '',
+                        nota: ''
+                    }
+                },
+                adicionarAluno: function(){
+                    //console.log(this.form)
+                    this.alunos.push(this.form)
+                    this.limpaFormulario()
+                },
+                apagarAluno: function(aluno){
+                    var posicao = this.alunos.indexOf(aluno)
+                    this.alunos.splace(posicao,1)
+                }
+            }
+        })
+    </script>
+        
+    <style>
+        .table {
+            margin-top: 20px;
+            width: 100%;
+            text-align: left;
+        }
+        .table th, .table td {
+            border-top: 1px solid #ccc;
+        }
+        .table th:last-child, .table td:last-child {
+            text-align: right;
+        }
+        .danger {
+            background-color: rgb(192, 42, 192);
+            border-color: violet;
+            color: #ccc;
+
+        }
+        input {
+            display: block;
+        }
+        input[type=button]{
+            background-color: rgb(136, 167, 233);
+            margin-top: 10px;
+            border-color: rgb(136, 167, 233);
+            color: #eee;
+        }
+    </style>
 </body>
